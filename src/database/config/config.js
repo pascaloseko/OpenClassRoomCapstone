@@ -1,23 +1,26 @@
-require('dotenv').config();
+const { Pool } = require('pg');
+const dotenv = require('dotenv');
 
-module.exports = {
-  development: {
-    username: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_NAME,
-    host: process.env.DB_HOST,
-    dialect: 'postgres',
-    logging: false,
-  },
-  test: {
-    username: process.env.TEST_DB_USER,
-    password: process.env.TEST_DB_PASS,
-    database: process.env.TEST_DB_NAME,
-    host: process.env.TEST_DB_HOST,
-    dialect: 'postgres',
-    logging: false,
-  },
-  production: {
-    use_env_variable: 'DATABASE_URL',
-  },
-};
+dotenv.config();
+
+const pool = new Pool({
+  connectionString: 'postgres://gwp:gwp@127.0.0.1:5432/teamwork'
+});
+
+pool.on('connect', () => {
+  console.log('connected to db...')
+});
+
+export default {
+  query(text, params) {
+    return new Promise((resolve, reject) => {
+      pool.query(text, params)
+        .then(res => {
+          resolve(res);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+}
