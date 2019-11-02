@@ -39,3 +39,18 @@ describe("POST /", () => {
             expect(res.body).to.have.property("user");
     });
 });
+
+describe("POST /", () => {
+    it("should return a sucess if user is authenticated with token", async () => {
+        const res = await request(app)
+            .post("/user/login")
+            .send(
+                {
+                    email: "test@mail.com",
+                    password: "test"
+                }
+            );
+            expect(res.status).to.equal(200);
+            expect(res.body).to.have.property('token');
+    })
+});
