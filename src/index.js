@@ -86,5 +86,5 @@ const port = parseInt(process.env.NODE_ENV === 'test' ? 8378 : process.env.PORT,
 export const server = app.listen(port, () => {
   log(`Server is running on http://localhost:${port} `);
 });
-server.close();
+// server.close();
 export default app;
