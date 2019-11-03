@@ -86,51 +86,51 @@ class GIFController {
   //   }
   // }
 
-  // static async updateGif(req, res) {
-  //   const findOneQuery = 'SELECT * FROM articles WHERE articleId=$1 AND authorId = $2';
-  //   const updateQuery = `UPDATE articles
-  //     SET createdOn=$1, title=$2, gifUrl=$3, article=$4
-  //     WHERE articleId=$5 AND authorId=$6 returning *`;
-  //   const imageDetails = {
-  //     imageName: req.body.title,
-  //     cloudImage: req.files[0].path,
-  //     imageId: '',
-  //   };
+  static async updateGif(req, res) {
+    const findOneQuery = 'SELECT * FROM articles WHERE articleId=$1 AND authorId = $2';
+    const updateQuery = `UPDATE articles
+      SET createdOn=$1, title=$2, gifUrl=$3, article=$4
+      WHERE articleId=$5 AND authorId=$6 returning *`;
+    const imageDetails = {
+      imageName: req.body.title,
+      cloudImage: req.files[0].path,
+      imageId: '',
+    };
 
-  //   const imageDetail = await cloud.uploads(imageDetails.cloudImage);
-  //   try {
-  //     if (req.headers && req.headers.authorization) {
-  //       let token = req.get('Authorization').split(' ')[1];
-  //       let decoded;
+    const imageDetail = await cloud.uploads(imageDetails.cloudImage);
+    try {
+      if (req.headers && req.headers.authorization) {
+        let token = req.get('Authorization').split(' ')[1];
+        let decoded;
 
-  //       try {
-  //         decoded = jwt.verify(token, process.env.SECRET);
-  //       } catch (error) {
-  //         return res.status(401).send('unauthorized');
-  //       }
-  //       const userId = decoded.userId;
-  //       const { rows } = await db.query(findOneQuery, [req.params.id, userId]);
+        try {
+          decoded = jwt.verify(token, process.env.SECRET);
+        } catch (error) {
+          return res.status(401).send('unauthorized');
+        }
+        const userId = decoded.userId;
+        const { rows } = await db.query(findOneQuery, [req.params.id, userId]);
 
-  //       if (!rows[0]) {
-  //         return res.status(404).send({ message: 'article or gif not found' });
-  //       }
+        if (!rows[0]) {
+          return res.status(404).send({ message: 'article or gif not found' });
+        }
 
-  //       const values = [
-  //         moment(new Date()),
-  //         req.body.title,
-  //         imageDetail.url,
-  //         req.body.article,
-  //         req.params.id,
-  //         userId,
-  //       ];
+        const values = [
+          moment(new Date()),
+          req.body.title,
+          imageDetail.url,
+          req.body.article,
+          req.params.id,
+          userId,
+        ];
 
-  //       const response = await db.query(updateQuery, values);
-  //       return res.status(200).send(response.rows[0]);
-  //     }
-  //   } catch (error) {
-  //     return res.status(400).send(error);
-  //   }
-  // }
+        const response = await db.query(updateQuery, values);
+        return res.status(200).send(response.rows[0]);
+      }
+    } catch (error) {
+      return res.status(400).send(error);
+    }
+  }
 
   // static async deleteGif(req, res) {
   //   const deleteQuery = `DELETE FROM articles WHERE articleId=$1 RETURNING *`;
