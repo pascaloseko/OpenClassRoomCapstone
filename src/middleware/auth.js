@@ -13,13 +13,13 @@ class AuthMiddleWare {
       let token = req.get('Authorization').split(' ')[1];
       let decodedToken;
       try {
-        decodedToken = jwt.verify(token, 'somesuperseretsecretkey');
+        decodedToken = jwt.verify(token, process.env.SECRET);
       }
       catch (error) {
         error.statusCode = 500;
         throw error;
       }
-      req.customer_id = decodedToken.customer_id;
+      req.id = decodedToken.id;
       next();
     } else {
       res.status(500).json({ error: 'Not Authorized' });
