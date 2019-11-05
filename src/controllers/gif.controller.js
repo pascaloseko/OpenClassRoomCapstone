@@ -58,18 +58,18 @@ class GIFController {
     }
   }
 
-  // static async listArticles(req, res) {
-  //   const texts = 'SELECT * FROM articles ORDER BY articleId ASC';
-  //   try {
-  //     const { rows } = await db.query(texts);
-  //     if (!rows) {
-  //       return res.status(404).json({ message: 'articles not found' });
-  //     }
-  //     return res.status(200).send(rows);
-  //   } catch (error) {
-  //     return res.status(400).send(error);
-  //   }
-  // }
+  static async listArticles(req, res) {
+    const texts = 'SELECT * FROM articles ORDER BY articleId ASC';
+    try {
+      const { rows } = await db.query(texts);
+      if (!rows) {
+        return res.status(404).json({ message: 'articles not found' });
+      }
+      return res.status(200).send(rows);
+    } catch (error) {
+      return res.status(400).send(error);
+    }
+  }
 
   // static async getOne(req, res) {
   //   const text = 'SELECT * FROM articles WHERE articleId=$1';
