@@ -71,20 +71,20 @@ class GIFController {
     }
   }
 
-  // static async getOne(req, res) {
-  //   const text = 'SELECT * FROM articles WHERE articleId=$1';
-  //   try {
-  //     const { rows } = await db.query(text, [req.params.id]);
-  //     if (!rows[0]) {
-  //       return res.status(404).send({ message: 'article or gif not found' });
-  //     }
+  static async getOne(req, res) {
+    const text = 'SELECT * FROM articles WHERE articleId=$1';
+    try {
+      const { rows } = await db.query(text, [req.params.id]);
+      if (!rows[0]) {
+        return res.status(404).send({ message: 'article or gif not found' });
+      }
 
-  //     return res.status(200).send(rows[0]);
-  //   } catch (error) {
-  //     console.log(error);
-  //     return res.status(400).send(error);
-  //   }
-  // }
+      return res.status(200).send(rows[0]);
+    } catch (error) {
+      console.log(error);
+      return res.status(400).send(error);
+    }
+  }
 
   static async updateGif(req, res) {
     const findOneQuery = 'SELECT * FROM articles WHERE articleId=$1 AND authorId = $2';
