@@ -58,33 +58,33 @@ class GIFController {
     }
   }
 
-  // static async listArticles(req, res) {
-  //   const texts = 'SELECT * FROM articles ORDER BY articleId ASC';
-  //   try {
-  //     const { rows } = await db.query(texts);
-  //     if (!rows) {
-  //       return res.status(404).json({ message: 'articles not found' });
-  //     }
-  //     return res.status(200).send(rows);
-  //   } catch (error) {
-  //     return res.status(400).send(error);
-  //   }
-  // }
+  static async listArticles(req, res) {
+    const texts = 'SELECT * FROM articles ORDER BY articleId ASC';
+    try {
+      const { rows } = await db.query(texts);
+      if (!rows) {
+        return res.status(404).json({ message: 'articles not found' });
+      }
+      return res.status(200).send(rows);
+    } catch (error) {
+      return res.status(400).send(error);
+    }
+  }
 
-  // static async getOne(req, res) {
-  //   const text = 'SELECT * FROM articles WHERE articleId=$1';
-  //   try {
-  //     const { rows } = await db.query(text, [req.params.id]);
-  //     if (!rows[0]) {
-  //       return res.status(404).send({ message: 'article or gif not found' });
-  //     }
+  static async getOne(req, res) {
+    const text = 'SELECT * FROM articles WHERE articleId=$1';
+    try {
+      const { rows } = await db.query(text, [req.params.id]);
+      if (!rows[0]) {
+        return res.status(404).send({ message: 'article or gif not found' });
+      }
 
-  //     return res.status(200).send(rows[0]);
-  //   } catch (error) {
-  //     console.log(error);
-  //     return res.status(400).send(error);
-  //   }
-  // }
+      return res.status(200).send(rows[0]);
+    } catch (error) {
+      console.log(error);
+      return res.status(400).send(error);
+    }
+  }
 
   static async updateGif(req, res) {
     const findOneQuery = 'SELECT * FROM articles WHERE articleId=$1 AND authorId = $2';
@@ -132,39 +132,39 @@ class GIFController {
     }
   }
 
-  // static async deleteGif(req, res) {
-  //   const deleteQuery = `DELETE FROM articles WHERE articleId=$1 RETURNING *`;
-  //   try {
-  //     const { rows } = await db.query(deleteQuery, [req.params.id]);
-  //     if (!rows[0]) {
-  //       return res.status(400).send({ message: 'Article not found' });
-  //     }
-  //     return res.status(204).send({ message: 'Article Deleted' });
-  //   } catch (error) {
-  //     return res.status(404).send(error);
-  //   }
-  // }
+  static async deleteGif(req, res) {
+    const deleteQuery = `DELETE FROM articles WHERE articleId=$1 RETURNING *`;
+    try {
+      const { rows } = await db.query(deleteQuery, [req.params.id]);
+      if (!rows[0]) {
+        return res.status(400).send({ message: 'Article not found' });
+      }
+      return res.status(204).send({ message: 'Article Deleted' });
+    } catch (error) {
+      return res.status(404).send(error);
+    }
+  }
 
-  // static async commentArticle(req, res) {
-  //   const findOneQuery = 'SELECT * FROM articles WHERE articleId=$1';
-  //   const query = `INSERT INTO comments(articleId, authorId, createdOn, comment) VALUES($1, $2, $3, $4) RETURNING *`;
-  //   try {
-  //     const { rows } = await db.query(findOneQuery, [req.params.id]);
-  //     if(!rows[0]) {
-  //       return res.status(404).send({'message': 'article not found'});
-  //     }
-  //     const values = [
-  //       rows[0].articleid,
-  //       rows[0].authorid,
-  //       moment(new Date()),
-  //       req.body.comment || rows[0].comment
-  //     ];
-  //     const response = await db.query(query, values);
-  //     return res.status(200).send(response.rows[0]);
-  //   } catch(err) {
-  //     return res.status(400).send(err);
-  //   }
-  // }
+  static async commentArticle(req, res) {
+    const findOneQuery = 'SELECT * FROM articles WHERE articleId=$1';
+    const query = `INSERT INTO comments(articleId, authorId, createdOn, comment) VALUES($1, $2, $3, $4) RETURNING *`;
+    try {
+      const { rows } = await db.query(findOneQuery, [req.params.id]);
+      if(!rows[0]) {
+        return res.status(404).send({'message': 'article not found'});
+      }
+      const values = [
+        rows[0].articleid,
+        rows[0].authorid,
+        moment(new Date()),
+        req.body.comment || rows[0].comment
+      ];
+      const response = await db.query(query, values);
+      return res.status(200).send(response.rows[0]);
+    } catch(err) {
+      return res.status(400).send(err);
+    }
+  }
 }
 
 export default GIFController;
