@@ -145,26 +145,26 @@ class GIFController {
     }
   }
 
-  // static async commentArticle(req, res) {
-  //   const findOneQuery = 'SELECT * FROM articles WHERE articleId=$1';
-  //   const query = `INSERT INTO comments(articleId, authorId, createdOn, comment) VALUES($1, $2, $3, $4) RETURNING *`;
-  //   try {
-  //     const { rows } = await db.query(findOneQuery, [req.params.id]);
-  //     if(!rows[0]) {
-  //       return res.status(404).send({'message': 'article not found'});
-  //     }
-  //     const values = [
-  //       rows[0].articleid,
-  //       rows[0].authorid,
-  //       moment(new Date()),
-  //       req.body.comment || rows[0].comment
-  //     ];
-  //     const response = await db.query(query, values);
-  //     return res.status(200).send(response.rows[0]);
-  //   } catch(err) {
-  //     return res.status(400).send(err);
-  //   }
-  // }
+  static async commentArticle(req, res) {
+    const findOneQuery = 'SELECT * FROM articles WHERE articleId=$1';
+    const query = `INSERT INTO comments(articleId, authorId, createdOn, comment) VALUES($1, $2, $3, $4) RETURNING *`;
+    try {
+      const { rows } = await db.query(findOneQuery, [req.params.id]);
+      if(!rows[0]) {
+        return res.status(404).send({'message': 'article not found'});
+      }
+      const values = [
+        rows[0].articleid,
+        rows[0].authorid,
+        moment(new Date()),
+        req.body.comment || rows[0].comment
+      ];
+      const response = await db.query(query, values);
+      return res.status(200).send(response.rows[0]);
+    } catch(err) {
+      return res.status(400).send(err);
+    }
+  }
 }
 
 export default GIFController;
