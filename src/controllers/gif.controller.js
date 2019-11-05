@@ -132,18 +132,18 @@ class GIFController {
     }
   }
 
-  // static async deleteGif(req, res) {
-  //   const deleteQuery = `DELETE FROM articles WHERE articleId=$1 RETURNING *`;
-  //   try {
-  //     const { rows } = await db.query(deleteQuery, [req.params.id]);
-  //     if (!rows[0]) {
-  //       return res.status(400).send({ message: 'Article not found' });
-  //     }
-  //     return res.status(204).send({ message: 'Article Deleted' });
-  //   } catch (error) {
-  //     return res.status(404).send(error);
-  //   }
-  // }
+  static async deleteGif(req, res) {
+    const deleteQuery = `DELETE FROM articles WHERE articleId=$1 RETURNING *`;
+    try {
+      const { rows } = await db.query(deleteQuery, [req.params.id]);
+      if (!rows[0]) {
+        return res.status(400).send({ message: 'Article not found' });
+      }
+      return res.status(204).send({ message: 'Article Deleted' });
+    } catch (error) {
+      return res.status(404).send(error);
+    }
+  }
 
   // static async commentArticle(req, res) {
   //   const findOneQuery = 'SELECT * FROM articles WHERE articleId=$1';
